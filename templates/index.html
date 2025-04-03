@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outil de Configuration Réseau</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Configuration via Serveur de Rebond</h1>
+        <form method="post" id="config-form">
+            <!-- Menu déroulant pour le serveur de rebond -->
+            <fieldset>
+                <legend>Serveur de Rebond</legend>
+                <div class="form-group">
+                    <label for="jump_host">Sélectionnez un serveur :</label>
+                    <select id="jump_host" name="jump_host" required>
+                        <option value="172.26.1.94">PROD (172.26.1.94)</option>
+                        <option value="172.26.1.94">PROD_BIS (172.26.0.94)</option>
+                        <option value="172.28.252.114">PLATFORME (172.28.252.114)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jump_user">Utilisateur:</label>
+                    <input type="text" id="jump_user" name="jump_user" required placeholder="Nom d'utilisateur">
+                </div>
+
+                <div class="form-group">
+                    <label for="jump_pass">Mot de passe:</label>
+                    <input type="password" id="jump_pass" name="jump_pass" required placeholder="Mot de passe">
+                </div>
+            </fieldset>
+
+            <!-- Identifiants RADIUS -->
+            <fieldset>
+                <legend>Identifiants RADIUS</legend>
+                <div class="form-group">
+                    <label for="radius_user">Utilisateur:</label>
+                    <input type="text" id="radius_user" name="radius_user" required placeholder="Nom d'utilisateur RADIUS">
+                </div>
+
+                <div class="form-group">
+                    <label for="radius_pass">Mot de passe:</label>
+                    <input type="password" id="radius_pass" name="radius_pass" required placeholder="Mot de passe RADIUS">
+                </div>
+
+                <!-- Nokia Enable Admin -->
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="nokia_enable_admin_checkbox" name="nokia_enable_admin" style="margin-right: 10px;">
+                    <label for="nokia_enable_admin_checkbox">Activer le mode Nokia Enable Admin</label>
+                </div>
+                <div id="enable_admin_password_field" style="display: none;">
+                    <label for="enable_admin_password">Mot de passe Enable Admin:</label>
+                    <input type="password" id="enable_admin_password" name="enable_admin_password" placeholder="Mot de passe">
+                </div>
+            </fieldset>
+
+            <!-- Liste des équipements -->
+            <div class="form-group">
+                <label for="devices">IP Équipements (1 par ligne):</label>
+                <textarea id="devices" name="devices" rows="5" required></textarea>
+            </div>
+
+            <!-- Liste des commandes -->
+            <div class="form-group">
+                <label for="commands">Commandes (1 par ligne):</label>
+                <textarea id="commands" name="commands" rows="10" required></textarea>
+            </div>
+
+            <!-- Bouton pour soumettre le formulaire -->
+            <button type="submit" class="primary-btn" id="execute-btn">Exécuter</button>
+        </form>
+
+        <!-- Barre de progression fictive -->
+        <div id="progress-container" style="display: none; margin-top: 20px;">
+            <label for="progress-bar">Progression :</label>
+            <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+        </div>
+    </div>
+
+    <!-- Inclusion du fichier JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        document.getElementById('execute-btn').addEventListener('click', function(event) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress-container');
+            const devices = document.getElementById('devices').value.split('\n').filter(ip => ip.trim() !== '');
+            const totalTime = devices.length * 15000; // 5 seconds per IP
+            const intervalTime = 100; // Update progress every 100ms
+            const totalSteps = totalTime / intervalTime;
+
+            progressContainer.style.display = 'block';
+            let progress = 0;
+
+            // Submit the form immediately
+            document.getElementById('config-form').submit();
+
+            // Start the progress bar animation
+            const interval = setInterval(() => {
+                progress += 100 / totalSteps;
+                progressBar.value = Math.min(progress, 100);
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, intervalTime);
+        });
+
+        document.getElementById('nokia_enable_admin_checkbox').addEventListener('change', function () {
+            const passwordField = document.getElementById('enable_admin_password_field');
+            passwordField.style.display = this.checked ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

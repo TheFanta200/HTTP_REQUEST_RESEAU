@@ -1,0 +1,226 @@
+/* style.css */
+
+/* Couleurs RATP inspirées */
+:root {
+    --ratp-green: #3ba291; /* Vert émeraude */
+    --ratp-light-green: #d1e9e5; /* Vert clair */
+    --ratp-white: #ffffff;
+    --ratp-gray: #777;
+    --ratp-dark-gray: #333;
+    --ratp-blue: #007bff; /* Bleu standard pour les actions principales */
+    --ratp-light-blue: #cce5ff;
+    --ratp-orange: #fd7e14;
+    --ratp-light-orange: #ffe5d4;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--ratp-light-green); /* Fond vert clair */
+    color: var(--ratp-dark-gray);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s ease;
+}
+
+.container {
+    background-color: var(--ratp-white);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 900px;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.5s ease-out forwards 0.2s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    text-align: center;
+    color: var(--ratp-green); /* Titre en vert RATP */
+    margin-bottom: 25px;
+    transform: scale(0.9);
+    opacity: 0.8;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+h1:hover {
+    transform: scale(1);
+    opacity: 1;
+}
+
+fieldset {
+    border: 1px solid var(--ratp-green); /* Bordure verte */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+}
+
+fieldset:hover {
+    box-shadow: 0 0 10px rgba(var(--ratp-green), 0.3); /* Ombre verte au survol */
+}
+
+legend {
+    color: var(--ratp-white); /* Texte blanc */
+    padding: 5px 10px;
+    font-weight: bold;
+    border: 1px solid var(--ratp-green);
+    border-radius: 5px;
+    background-color: var(--ratp-green); /* Fond vert */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--ratp-gray); /* Texte gris */
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc; /* Bordure grise claire */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--ratp-blue); /* Bordure bleue au focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(var(--ratp-blue), 0.5);
+}
+
+select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: calc(100% - 10px);
+    background-position-y: 50%;
+    background-size: 16px;
+    padding-right: 30px;
+    background-color: var(--ratp-white); /* Fond blanc pour le select */
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.primary-btn {
+    background-color: var(--ratp-blue); /* Bouton principal bleu */
+    color: var(--ratp-white);
+}
+
+.primary-btn:hover {
+    background-color: #0056b3; /* Bleu plus foncé au survol */
+    transform: scale(1.05);
+}
+
+.primary-btn:active {
+    transform: scale(0.95);
+}
+
+.secondary-btn {
+    background-color: var(--ratp-orange); /* Bouton secondaire orange */
+    color: var(--ratp-white);
+    margin-top: 10px;
+}
+
+.secondary-btn:hover {
+    background-color: #d35400; /* Orange plus foncé au survol */
+    transform: scale(1.05);
+}
+
+.secondary-btn:active {
+    transform: scale(0.95);
+}
+
+#loading {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--ratp-gray);
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid var(--ratp-blue); /* Spinner bleu */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea,
+    button {
+        font-size: 14px;
+    }
+}
+#progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+#progress {
+    width: 0%;
+    height: 10px;
+    background-color: #4caf50;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+}
+
+#progress-text {
+    text-align: center;
+    margin-top: 5px;
+    font-weight: bold;
+}

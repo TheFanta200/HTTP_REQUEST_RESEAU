@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats des Commandes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Styles spécifiques à cette page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        #summary-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-container {
+            margin-top: 20px;
+        }
+
+        .device-card {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ccc; /* Bande indicative */
+        }
+
+        .device-card.success {
+            border-left-color: green; /* Succès */
+        }
+
+        .device-card.error {
+            border-left-color: orange; /* Erreur */
+        }
+
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .device-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .copy-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        pre {
+            white-space: pre-wrap; /* Permet le retour à la ligne */
+            word-wrap: break-word; /* Gère les mots longs */
+            font-family: monospace;
+            font-size: 0.9em;
+            background-color: #f3f3f3;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        #copy-all-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        #copy-all-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Résultats des Commandes</h1>
+        
+        <!-- Résumé des résultats -->
+        <div id="summary-container">
+          <!-- Le sommaire sera généré dynamiquement par JavaScript -->
+          <p><strong>Sommaire :</strong></p>
+          <p>Toutes les commandes ont réussi.</p> <!-- Par défaut -->
+        </div>
+
+        <!-- Bouton pour copier tous les résultats -->
+        <button id="copy-all-btn">Copier Tous les Résultats</button>
+
+        <!-- Conteneur des résultats -->
+        <div class="results-container">
+          {% for device, result in results.items() %}
+              <div class="device-card {{ 'error' if 'ERROR' in result.output or 'Invalid' in result.output else 'success' }}">
+                  <div class="device-header">
+                      <h2>{{ device }}</h2>
+                      <button class="copy-btn" title="Copier les résultats">📋</button>
+                  </div>
+                  <pre>{% for output in result.output %}{{ output }}{% endfor %}</pre>
+              </div>
+          {% endfor %}
+        </div>
+
+        <!-- Bouton retour -->
+        <a href="/" id="back-btn">Nouvelle Configuration</a>
+    </div>
+
+    <!-- Inclusion du script JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
